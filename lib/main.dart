@@ -215,7 +215,19 @@ class _BluetoothPageState extends State<BluetoothPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(CupertinoIcons.bluetooth, color: CupertinoColors.white, size: 40),
+                  // Black Box for Bluetooth Icon
+                  Container(
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: CupertinoColors.black, // Black background
+                      borderRadius: BorderRadius.circular(10), // Rounded corners
+                    ),
+                    child: Icon(
+                      CupertinoIcons.bluetooth,
+                      color: CupertinoColors.white,
+                      size: 40,
+                    ),
+                  ),
                   SizedBox(height: 10),
                   Text(
                     "Bluetooth",
