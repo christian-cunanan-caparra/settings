@@ -1,11 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(CupertinoApp(
-  theme: CupertinoThemeData(brightness: Brightness.dark),
-  debugShowCheckedModeBanner: false,
-  home: MyApp(),
-));
+
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -67,7 +63,10 @@ class _MyAppState extends State<MyApp> {
                 title: Text("Your Phone can't be backed up"),
                 trailing: Icon(CupertinoIcons.chevron_right, color: Colors.grey),
               ),
+
               SizedBox(height: 40),
+
+
               Container(
                 decoration: BoxDecoration(
                   color: CupertinoColors.darkBackgroundGray,
@@ -100,15 +99,18 @@ class _MyAppState extends State<MyApp> {
                         },
                         leading: Icon(CupertinoIcons.airplane, color: CupertinoColors.systemOrange),
                         trailing: CupertinoSwitch(value: airplaneMode, onChanged: (value) {
-                            setState(() {
-                              airplaneMode = value;
-                              if (airplaneMode) {
-                                wifiMode = false; cellularMode = false;
-                              }
-                            });
-                          },
+                          setState(() {
+                            airplaneMode = value;
+                            if (airplaneMode) {
+                              wifiMode = false; cellularMode = false;
+                            }
+                          });
+                        },
                         ),
                       ),
+
+
+
 
 
                       CupertinoListTile(
@@ -159,12 +161,24 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
+
+
+
+
+
+
+
+
+
 class WifiPage extends StatefulWidget {
+  const WifiPage({super.key});
+
   @override
-  _WifiPageState createState() => _WifiPageState();
+  WifiPageState createState() => WifiPageState();
 }
 
-class _WifiPageState extends State<WifiPage> {
+
+class WifiPageState extends State<WifiPage> {
   bool isWifiEnabled = true;
   String connectedNetwork = "MyHomeWiFi";
 
@@ -259,12 +273,23 @@ class _WifiPageState extends State<WifiPage> {
   }
 }
 
+
+void main() => runApp(CupertinoApp(
+  theme: CupertinoThemeData(brightness: Brightness.dark),
+  debugShowCheckedModeBanner: false,
+  home: TrapPage(),
+));
+
+
+
 class BluetoothPage extends StatefulWidget {
+  const BluetoothPage({super.key});
+
   @override
-  _BluetoothPageState createState() => _BluetoothPageState();
+  BluetoothPageState createState() => BluetoothPageState();
 }
 
-class _BluetoothPageState extends State<BluetoothPage> {
+class BluetoothPageState extends State<BluetoothPage> {
   bool isBluetoothOn = true;
   List<String> devices = [
     "BEATS PRO90",
@@ -375,6 +400,55 @@ class _BluetoothPageState extends State<BluetoothPage> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+class TrapPage extends StatelessWidget {
+  const TrapPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: Text("Gumawa ka ng sarili mo boy!!"),
+      ),
+      child: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                CupertinoIcons.exclamationmark_triangle_fill,
+                size: 60,
+                color: CupertinoColors.systemRed,
+              ),
+              SizedBox(height: 20),
+              Text(
+                "HULE KA!",
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: CupertinoColors.systemRed,
+                ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                "You're trapped!",
+                style: TextStyle(
+                  fontSize: 18,
+                  color: CupertinoColors.systemGrey,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
