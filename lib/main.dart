@@ -212,14 +212,27 @@ class _BluetoothPageState extends State<BluetoothPage> {
                 color: CupertinoColors.darkBackgroundGray,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Row(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(CupertinoIcons.bluetooth, color: CupertinoColors.white),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      "Connect to accessories for streaming music, calls, and gaming. Learn more...",
-                      style: TextStyle(color: CupertinoColors.white, fontSize: 14),
+                  Icon(CupertinoIcons.bluetooth, color: CupertinoColors.white, size: 40),
+                  SizedBox(height: 10),
+                  Text(
+                    "Bluetooth",
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: CupertinoColors.white),
+                  ),
+                  SizedBox(height: 5),
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      style: TextStyle(fontSize: 14, color: CupertinoColors.white),
+                      children: [
+                        TextSpan(text: "Connect to accessories for streaming music, calls, and gaming. "),
+                        TextSpan(
+                          text: "Learn more...",
+                          style: TextStyle(color: CupertinoColors.systemBlue),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -241,7 +254,6 @@ class _BluetoothPageState extends State<BluetoothPage> {
             CupertinoListTile(
               title: Text("Allow New Connections", style: TextStyle(color: CupertinoColors.systemBlue)),
               subtitle: Text("New connections disabled from Control Center"),
-
             ),
             Divider(height: 1),
             SizedBox(height: 10),
@@ -272,4 +284,5 @@ class _BluetoothPageState extends State<BluetoothPage> {
     );
   }
 }
+
 
