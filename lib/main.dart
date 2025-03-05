@@ -29,8 +29,7 @@ class _MyAppState extends State<MyApp> {
       ),
       child: Padding(
         padding: EdgeInsets.all(10.0),
-        child: SafeArea(
-          child: Column(
+        child: SafeArea(child: Column(
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
@@ -71,64 +70,80 @@ class _MyAppState extends State<MyApp> {
 
                 trailing: Icon(CupertinoIcons.chevron_right, color: Colors.grey),
               ),
-              CupertinoListTile(
-                title: Text("Software Update Available"),
+              SizedBox(height: 40),
+              Container(
 
-                trailing: Icon(CupertinoIcons.chevron_right, color: Colors.grey),
+                decoration: BoxDecoration(
+                  color: CupertinoColors.darkBackgroundGray,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: CupertinoListTile(
+                  title: Text("Software Update Available"),
+
+                  trailing: Icon(CupertinoIcons.chevron_right, color: Colors.grey),
+                ),
               ),
 
-              SizedBox(height: 10),
+              SizedBox(height: 40),
               Expanded(
-                child: ListView(
-                  children: [
-                    CupertinoListTile(
-                      title: Text('Airplane Mode'),
-                      onTap: () {
-                        setState(() {
-                          airplaneMode = !airplaneMode;
-                        });
-                      },
-                      leading: Icon(CupertinoIcons.airplane, color: CupertinoColors.systemOrange),
-                      trailing: CupertinoSwitch(
-                        value: airplaneMode,
-                        onChanged: (value) {
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: CupertinoColors.darkBackgroundGray,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: ListView(
+                    children: [
+                      CupertinoListTile(
+                        title: Text('Airplane Mode'),
+                        onTap: () {
                           setState(() {
-                            airplaneMode = value;
+                            airplaneMode = !airplaneMode;
                           });
                         },
+
+
+                        leading: Icon(CupertinoIcons.airplane, color: CupertinoColors.systemOrange),
+                        trailing: CupertinoSwitch(
+                          value: airplaneMode,
+                          onChanged: (value) {
+                            setState(() {
+                              airplaneMode = value;
+                            });
+                          },
+                        ),
                       ),
-                    ),
 
-                    CupertinoListTile(
-                      title: Text('Wi-Fi'),
-                      onTap: () {
-                        Navigator.push(context, CupertinoPageRoute(builder: (context) => WifiPage()),
-                        );
-                      },
-                      additionalInfo: Text('HCC_ICSLab'),
-                      leading: Icon(CupertinoIcons.wifi, color: CupertinoColors.systemBlue),
-                      trailing: Icon(CupertinoIcons.chevron_right, color: Colors.grey),
-                    ),
+                      CupertinoListTile(
+                        title: Text('Wi-Fi'),
+                        onTap: () {
+                          Navigator.push(context, CupertinoPageRoute(builder: (context) => WifiPage()),
+                          );
+                        },
+                        additionalInfo: Text('HCC_ICSLab'),
+                        leading: Icon(CupertinoIcons.wifi, color: CupertinoColors.systemBlue),
+                        trailing: Icon(CupertinoIcons.chevron_right, color: Colors.grey),
+                      ),
 
-                    CupertinoListTile(
-                      title: Text('Bluetooth'),
-                      onTap: () {
-                        Navigator.push(context, CupertinoPageRoute(builder: (context) => BluetoothPage()),
-                        );
-                      },
-                      additionalInfo: Text('On'),
-                      leading: Icon(CupertinoIcons.bluetooth, color: CupertinoColors.systemBlue),
-                      trailing: Icon(CupertinoIcons.chevron_right, color: Colors.grey),
-                    ),
+                      CupertinoListTile(
+                        title: Text('Bluetooth'),
+                        onTap: () {
+                          Navigator.push(context, CupertinoPageRoute(builder: (context) => BluetoothPage()),
+                          );
+                        },
+                        additionalInfo: Text('On'),
+                        leading: Icon(CupertinoIcons.bluetooth, color: CupertinoColors.systemBlue),
+                        trailing: Icon(CupertinoIcons.chevron_right, color: Colors.grey),
+                      ),
 
-                    CupertinoListTile(
-                      title: Text('Cellular'),
-                      onTap: () {},
-                      additionalInfo: Text('On'),
-                      leading: Icon(Icons.cell_tower, color: CupertinoColors.systemGreen),
-                      trailing: Icon(CupertinoIcons.chevron_right, color: Colors.grey),
-                    ),
-                  ],
+                      CupertinoListTile(
+                        title: Text('Cellular'),
+                        onTap: () {},
+                        additionalInfo: Text('On'),
+                        leading: Icon(Icons.cell_tower, color: CupertinoColors.systemGreen),
+                        trailing: Icon(CupertinoIcons.chevron_right, color: Colors.grey),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
