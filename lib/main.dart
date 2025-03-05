@@ -154,20 +154,73 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-class WifiPage extends StatelessWidget {
+class WifiPage extends StatefulWidget {
+  @override
+  _WifiPageState createState() => _WifiPageState();
+}
+
+class _WifiPageState extends State<WifiPage> {
+  bool isWifiEnabled = true;
+  String connectedNetwork = "MyHomeWiFi";
+  List<String> availableNetworks = [
+    "MyHomeWiFi",
+    "CoffeeShop_WiFi",
+    "Office_WiFi",
+    "PublicHotspot",
+  ];
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         middle: Text("Wi-Fi"),
       ),
-      child: Padding(
-        padding: EdgeInsets.all(10.0),
-        child: Center(
-          child: Text(
-            "Wi-Fi Settings Page",
-            style: TextStyle(fontSize: 20, color: CupertinoColors.white),
-          ),
+      child: SafeArea(
+        child: Column(
+          children: [
+            // Wi-Fi Toggle
+            CupertinoListTile(
+              title: Text("Wi-Fi"),
+              trailing: CupertinoSwitch(
+                value: isWifiEnabled,
+                onChanged: (value) {
+                  setState(() {
+                    isWifiEnabled = value;
+                    if (!isWifiEnabled) {
+                      connectedNetwork = "";
+                    }
+                  });
+                },
+              ),
+            ),
+            Divider(),
+
+            // Available Networks
+            if (isWifiEnabled)
+              Expanded(
+                child: CupertinoScrollbar(
+                  child: ListView.builder(
+                    itemCount: availableNetworks.length,
+                    itemBuilder: (context, index) {
+                      String network = availableNetworks[index];
+                      bool isConnected = network == connectedNetwork;
+
+                      return CupertinoListTile(
+                        title: Text(network),
+                        trailing: isConnected
+                            ? Icon(CupertinoIcons.checkmark, color: CupertinoColors.activeBlue)
+                            : null,
+                        onTap: () {
+                          setState(() {
+                            connectedNetwork = network;
+                          });
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ),
+          ],
         ),
       ),
     );
