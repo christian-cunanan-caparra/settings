@@ -162,11 +162,18 @@ class WifiPage extends StatefulWidget {
 class _WifiPageState extends State<WifiPage> {
   bool isWifiEnabled = true;
   String connectedNetwork = "MyHomeWiFi";
-  List<String> availableNetworks = [
+
+  List<String> savedNetworks = [
     "MyHomeWiFi",
+    "WorkNetwork",
     "CoffeeShop_WiFi",
-    "Office_WiFi",
+  ];
+
+  List<String> otherNetworks = [
     "PublicHotspot",
+    "Guest_WiFi",
+    "Library_WiFi",
+    "Mall_FreeWiFi",
   ];
 
   @override
@@ -195,38 +202,59 @@ class _WifiPageState extends State<WifiPage> {
             ),
             Divider(),
 
-            // Available Networks
-            if (isWifiEnabled)
-              Expanded(
-                child: CupertinoScrollbar(
-                  child: ListView.builder(
-                    itemCount: availableNetworks.length,
-                    itemBuilder: (context, index) {
-                      String network = availableNetworks[index];
-                      bool isConnected = network == connectedNetwork;
-
-                      return CupertinoListTile(
-                        title: Text(network),
-                        trailing: isConnected
-                            ? Icon(CupertinoIcons.checkmark, color: CupertinoColors.activeBlue)
-                            : null,
-                        onTap: () {
-                          setState(() {
-                            connectedNetwork = network;
-                          });
-                        },
-                      );
-                    },
-                  ),
-                ),
+            // Saved Networks
+            if (isWifiEnabled) ...[
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Text("Saved Networks", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               ),
+              Column(
+                children: savedNetworks.map((network) {
+                  bool isConnected = network == connectedNetwork;
+                  return CupertinoListTile(
+                    title: Text(network),
+                    trailing: isConnected
+                        ? Icon(CupertinoIcons.checkmark, color: CupertinoColors.activeBlue)
+                        : null,
+                    onTap: () {
+                      setState(() {
+                        connectedNetwork = network;
+                      });
+                    },
+                  );
+                }).toList(),
+              ),
+
+              Divider(),
+
+              // Other Networks
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Text("Other Networks", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              ),
+              Column(
+                children: otherNetworks.map((network) {
+                  return CupertinoListTile(
+                    title: Text(network),
+                    trailing: Icon(CupertinoIcons.wifi, color: CupertinoColors.systemGrey),
+                    onTap: () {
+                      setState(() {
+                        connectedNetwork = network;
+                        if (!savedNetworks.contains(network)) {
+                          savedNetworks.add(network);
+                        }
+                      });
+                    },
+                  );
+                }).toList(),
+              ),
+            ],
           ],
         ),
       ),
     );
   }
 }
-
 
 class BluetoothPage extends StatefulWidget {
   @override
