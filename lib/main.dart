@@ -28,39 +28,59 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       child: Padding(
-        padding:  EdgeInsets.all(10.0),
-        child: SafeArea(child: Column(
+        padding: EdgeInsets.all(10.0),
+        child: SafeArea(
+          child: Column(
             children: [
               Padding(
-                padding:  EdgeInsets.symmetric(vertical: 10),
-                child: CupertinoSearchTextField(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: CupertinoSearchTextField(),
+              ),
 
+              Container(
+                padding: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  color: CupertinoColors.darkBackgroundGray,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: CupertinoColors.systemGrey,
+                      child: Text('CCC', style: TextStyle(color: Colors.white)),
+                    ),
+                    SizedBox(width: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Christian C. Caparra',
+                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        Text('Apple Account, iCloud, and more',
+                            style: TextStyle(fontSize: 14, color: Colors.grey)),
+                      ],
+                    ),
+                    Spacer(),
+                    Icon(CupertinoIcons.chevron_right, color: Colors.grey)
+                  ],
                 ),
               ),
 
+              SizedBox(height: 10),
+              CupertinoListTile(
+                title: Text("Your Phone can't be backed up"),
+
+                trailing: Icon(CupertinoIcons.chevron_right, color: Colors.grey),
+              ),
+              CupertinoListTile(
+                title: Text("Software Update Available"),
+
+                trailing: Icon(CupertinoIcons.chevron_right, color: Colors.grey),
+              ),
+
+              SizedBox(height: 10),
               Expanded(
                 child: ListView(
                   children: [
-
-                    CupertinoListTile(
-                      title: Text('Software Upgraded Available'),
-                      onTap: () {
-                        // Navigator.push(context, CupertinoPageRoute(builder: (context) => WifiPage()),
-                        // );
-
-
-
-                      },
-
-                      leading: Container(
-                        padding: EdgeInsets.all(3),
-
-
-                      ),
-                      trailing: Icon(CupertinoIcons.chevron_right, size: 20, color: Colors.grey),
-                    ),
-
-
                     CupertinoListTile(
                       title: Text('Airplane Mode'),
                       onTap: () {
@@ -68,17 +88,12 @@ class _MyAppState extends State<MyApp> {
                           airplaneMode = !airplaneMode;
                         });
                       },
-                      leading: Container(
-                        padding: EdgeInsets.all(3),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          color: CupertinoColors.systemOrange,
-                        ),
-                        child: Icon(CupertinoIcons.airplane, color: CupertinoColors.white),
-                      ),
-                      trailing: CupertinoSwitch(value: airplaneMode, onChanged: (value) {
+                      leading: Icon(CupertinoIcons.airplane, color: CupertinoColors.systemOrange),
+                      trailing: CupertinoSwitch(
+                        value: airplaneMode,
+                        onChanged: (value) {
                           setState(() {
-                            airplaneMode = !airplaneMode;
+                            airplaneMode = value;
                           });
                         },
                       ),
@@ -91,15 +106,8 @@ class _MyAppState extends State<MyApp> {
                         );
                       },
                       additionalInfo: Text('HCC_ICSLab'),
-                      leading: Container(
-                        padding: EdgeInsets.all(3),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          color: CupertinoColors.systemBlue,
-                        ),
-                        child: Icon(CupertinoIcons.wifi, color: CupertinoColors.white),
-                      ),
-                      trailing: Icon(CupertinoIcons.chevron_right, size: 20, color: Colors.grey),
+                      leading: Icon(CupertinoIcons.wifi, color: CupertinoColors.systemBlue),
+                      trailing: Icon(CupertinoIcons.chevron_right, color: Colors.grey),
                     ),
 
                     CupertinoListTile(
@@ -109,34 +117,16 @@ class _MyAppState extends State<MyApp> {
                         );
                       },
                       additionalInfo: Text('On'),
-                      leading: Container(
-                        padding: EdgeInsets.all(3),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          color: CupertinoColors.systemBlue,
-                        ),
-                        child: Icon(CupertinoIcons.bluetooth, color: CupertinoColors.white),
-                      ),
-                      trailing: Icon(CupertinoIcons.chevron_right, size: 20, color: Colors.grey),
+                      leading: Icon(CupertinoIcons.bluetooth, color: CupertinoColors.systemBlue),
+                      trailing: Icon(CupertinoIcons.chevron_right, color: Colors.grey),
                     ),
 
                     CupertinoListTile(
                       title: Text('Cellular'),
-                      onTap: () {
-                        // setState(() {
-                        //   wifiMode = !wifiMode;
-                        // });
-                      },
+                      onTap: () {},
                       additionalInfo: Text('On'),
-                      leading: Container(
-                        padding: EdgeInsets.all(3),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          color: CupertinoColors.systemGreen,
-                        ),
-                        child: Icon(Icons.cell_tower, color: CupertinoColors.white),
-                      ),
-                      trailing: Icon(CupertinoIcons.chevron_right, size: 20, color: Colors.grey),
+                      leading: Icon(Icons.cell_tower, color: CupertinoColors.systemGreen),
+                      trailing: Icon(CupertinoIcons.chevron_right, color: Colors.grey),
                     ),
                   ],
                 ),
@@ -149,7 +139,6 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-
 class WifiPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -158,16 +147,17 @@ class WifiPage extends StatelessWidget {
         middle: Text("Wi-Fi"),
       ),
       child: Padding(
-        padding:  EdgeInsets.all(10.0),
-        child: Center(child: Text(
-            "Wi-Fi Settings Page", style: TextStyle(fontSize: 20, color: CupertinoColors.white),
+        padding: EdgeInsets.all(10.0),
+        child: Center(
+          child: Text(
+            "Wi-Fi Settings Page",
+            style: TextStyle(fontSize: 20, color: CupertinoColors.white),
           ),
         ),
       ),
     );
   }
 }
-
 
 class BluetoothPage extends StatelessWidget {
   @override
@@ -178,8 +168,10 @@ class BluetoothPage extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.all(10.0),
-        child: Center(child: Text(
-            "Bluetooth Settings Page", style: TextStyle(fontSize: 20, color: CupertinoColors.white),
+        child: Center(
+          child: Text(
+            "Bluetooth Settings Page",
+            style: TextStyle(fontSize: 20, color: CupertinoColors.white),
           ),
         ),
       ),
