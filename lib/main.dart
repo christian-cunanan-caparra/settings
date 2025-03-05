@@ -17,6 +17,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   bool airplaneMode = false;
   bool wifiMode = true;
+  bool cellularMode = true;
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +32,7 @@ class _MyAppState extends State<MyApp> {
         padding: EdgeInsets.all(10.0),
         child: SafeArea(child: Column(
             children: [
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
+              Padding(padding: EdgeInsets.symmetric(vertical: 10),
                 child: CupertinoSearchTextField(),
               ),
 
@@ -52,10 +52,8 @@ class _MyAppState extends State<MyApp> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Christian C. Caparra',
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                        Text('Apple Account, iCloud, and more',
-                            style: TextStyle(fontSize: 14, color: Colors.grey)),
+                        Text('Christian C. Caparra', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        Text('Apple Account, iCloud, and more', style: TextStyle(fontSize: 14, color: Colors.grey)),
                       ],
                     ),
                     Spacer(),
@@ -67,19 +65,16 @@ class _MyAppState extends State<MyApp> {
               SizedBox(height: 10),
               CupertinoListTile(
                 title: Text("Your Phone can't be backed up"),
-
                 trailing: Icon(CupertinoIcons.chevron_right, color: Colors.grey),
               ),
               SizedBox(height: 40),
               Container(
-
                 decoration: BoxDecoration(
                   color: CupertinoColors.darkBackgroundGray,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: CupertinoListTile(
                   title: Text("Software Update Available"),
-
                   trailing: Icon(CupertinoIcons.chevron_right, color: Colors.grey),
                 ),
               ),
@@ -98,48 +93,58 @@ class _MyAppState extends State<MyApp> {
                         onTap: () {
                           setState(() {
                             airplaneMode = !airplaneMode;
+                            if (airplaneMode) {
+                              wifiMode = false; cellularMode = false;
+                            }
                           });
                         },
-
-
                         leading: Icon(CupertinoIcons.airplane, color: CupertinoColors.systemOrange),
-                        trailing: CupertinoSwitch(
-                          value: airplaneMode,
-                          onChanged: (value) {
+                        trailing: CupertinoSwitch(value: airplaneMode, onChanged: (value) {
                             setState(() {
                               airplaneMode = value;
+                              if (airplaneMode) {
+                                wifiMode = false; cellularMode = false;
+                              }
                             });
                           },
                         ),
                       ),
 
+
                       CupertinoListTile(
                         title: Text('Wi-Fi'),
                         onTap: () {
-                          Navigator.push(context, CupertinoPageRoute(builder: (context) => WifiPage()),
-                          );
+                          if (!airplaneMode) {
+                            Navigator.push(context, CupertinoPageRoute(builder: (context) => WifiPage()));
+                          }
                         },
-                        additionalInfo: Text('HCC_ICSLab'),
-                        leading: Icon(CupertinoIcons.wifi, color: CupertinoColors.systemBlue),
+                        additionalInfo: Text(
+                          airplaneMode ? 'Unable to connect' : wifiMode ? 'HCC_ICSLab' : 'On',
+                        ),
+                        leading: Icon(
+                          CupertinoIcons.wifi, color: airplaneMode ? CupertinoColors.systemGrey : CupertinoColors.systemBlue,
+                        ),
                         trailing: Icon(CupertinoIcons.chevron_right, color: Colors.grey),
                       ),
+
 
                       CupertinoListTile(
                         title: Text('Bluetooth'),
                         onTap: () {
-                          Navigator.push(context, CupertinoPageRoute(builder: (context) => BluetoothPage()),
-                          );
+                          Navigator.push(context, CupertinoPageRoute(builder: (context) => BluetoothPage()));
                         },
-                        additionalInfo: Text('On'),
-                        leading: Icon(CupertinoIcons.bluetooth, color: CupertinoColors.systemBlue),
+                        additionalInfo: Text('On'), leading: Icon(CupertinoIcons.bluetooth, color: CupertinoColors.systemBlue),
                         trailing: Icon(CupertinoIcons.chevron_right, color: Colors.grey),
                       ),
 
                       CupertinoListTile(
                         title: Text('Cellular'),
                         onTap: () {},
-                        additionalInfo: Text('On'),
-                        leading: Icon(Icons.cell_tower, color: CupertinoColors.systemGreen),
+                        additionalInfo: Text(airplaneMode ? 'Off' : 'On'),
+                        leading: Icon(
+                          Icons.cell_tower,
+                          color: airplaneMode ? CupertinoColors.systemGrey : CupertinoColors.systemGreen,
+                        ),
                         trailing: Icon(CupertinoIcons.chevron_right, color: Colors.grey),
                       ),
                     ],
@@ -185,12 +190,10 @@ class _WifiPageState extends State<WifiPage> {
       child: SafeArea(
         child: Column(
           children: [
-            // Wi-Fi Toggle
+
             CupertinoListTile(
               title: Text("Wi-Fi"),
-              trailing: CupertinoSwitch(
-                value: isWifiEnabled,
-                onChanged: (value) {
+              trailing: CupertinoSwitch(value: isWifiEnabled, onChanged: (value) {
                   setState(() {
                     isWifiEnabled = value;
                     if (!isWifiEnabled) {
@@ -202,7 +205,7 @@ class _WifiPageState extends State<WifiPage> {
             ),
             Divider(),
 
-            // Saved Networkss
+
             if (isWifiEnabled) ...[
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -227,7 +230,7 @@ class _WifiPageState extends State<WifiPage> {
 
               Divider(),
 
-              // Other Networks
+
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Text("Other Networks", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
@@ -283,9 +286,9 @@ class _BluetoothPageState extends State<BluetoothPage> {
         ),
         middle: Text("Bluetooth"),
       ),
-      child: SafeArea(
-        child: Column(
+      child: SafeArea(child: Column(
           children: [
+
             SizedBox(height: 15),
             Container(
               padding: EdgeInsets.all(15),
@@ -296,12 +299,14 @@ class _BluetoothPageState extends State<BluetoothPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Black Box for Bluetooth Icon
+
+
+
                   Container(
                     padding: EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: CupertinoColors.black, // Black background
-                      borderRadius: BorderRadius.circular(10), // Rounded corners
+                      color: CupertinoColors.black,
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     child: Icon(
                       CupertinoIcons.bluetooth,
@@ -310,19 +315,16 @@ class _BluetoothPageState extends State<BluetoothPage> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  Text(
-                    "Bluetooth",
+                  Text("Bluetooth",
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: CupertinoColors.white),
                   ),
                   SizedBox(height: 5),
                   RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
+                    textAlign: TextAlign.center, text: TextSpan(
                       style: TextStyle(fontSize: 14, color: CupertinoColors.white),
                       children: [
                         TextSpan(text: "Connect to accessories for streaming music, calls, and gaming. "),
-                        TextSpan(
-                          text: "Learn more...",
+                        TextSpan(text: "Learn more...",
                           style: TextStyle(color: CupertinoColors.systemBlue),
                         ),
                       ],
@@ -332,11 +334,11 @@ class _BluetoothPageState extends State<BluetoothPage> {
               ),
             ),
             SizedBox(height: 10),
+
+
             CupertinoListTile(
               title: Text("Bluetooth", style: TextStyle(fontSize: 18)),
-              trailing: CupertinoSwitch(
-                value: isBluetoothOn,
-                onChanged: (value) {
+              trailing: CupertinoSwitch(value: isBluetoothOn, onChanged: (value) {
                   setState(() {
                     isBluetoothOn = value;
                   });
@@ -344,6 +346,7 @@ class _BluetoothPageState extends State<BluetoothPage> {
               ),
             ),
             Divider(height: 1),
+
             CupertinoListTile(
               title: Text("Allow New Connections", style: TextStyle(color: CupertinoColors.systemBlue)),
               subtitle: Text("New connections disabled from Control Center"),
@@ -351,14 +354,14 @@ class _BluetoothPageState extends State<BluetoothPage> {
             Divider(height: 1),
             SizedBox(height: 10),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
+              padding: EdgeInsets.symmetric(horizontal: 16), child: Row(
                 children: [
                   Text("MY DEVICES", style: TextStyle(color: CupertinoColors.systemGrey)),
                 ],
               ),
             ),
             Expanded(
+
               child: ListView.builder(
                 itemCount: isBluetoothOn ? devices.length : 0,
                 itemBuilder: (context, index) {
@@ -377,5 +380,3 @@ class _BluetoothPageState extends State<BluetoothPage> {
     );
   }
 }
-
-
