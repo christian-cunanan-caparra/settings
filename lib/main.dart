@@ -159,22 +159,102 @@ class WifiPage extends StatelessWidget {
   }
 }
 
-class BluetoothPage extends StatelessWidget {
+
+class BluetoothPage extends StatefulWidget {
+  @override
+  _BluetoothPageState createState() => _BluetoothPageState();
+}
+
+class _BluetoothPageState extends State<BluetoothPage> {
+  bool isBluetoothOn = true;
+  List<String> devices = [
+    "BEATS PRO90",
+    "Bluetooth",
+    "Infinix-T02",
+    "JBL WAVE BUDS",
+    "K12",
+    "realme Buds T910"
+  ];
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
+        leading: CupertinoButton(
+          padding: EdgeInsets.zero,
+          child: Icon(CupertinoIcons.back, color: CupertinoColors.systemBlue),
+          onPressed: () => Navigator.pop(context),
+        ),
         middle: Text("Bluetooth"),
       ),
-      child: Padding(
-        padding: EdgeInsets.all(10.0),
-        child: Center(
-          child: Text(
-            "Bluetooth Settings Page",
-            style: TextStyle(fontSize: 20, color: CupertinoColors.white),
-          ),
+      child: SafeArea(
+        child: Column(
+          children: [
+            SizedBox(height: 15),
+            Container(
+              padding: EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                color: CupertinoColors.darkBackgroundGray,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                children: [
+                  Icon(CupertinoIcons.bluetooth, color: CupertinoColors.white),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      "Connect to accessories for streaming music, calls, and gaming. Learn more...",
+                      style: TextStyle(color: CupertinoColors.white, fontSize: 14),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
+            CupertinoListTile(
+              title: Text("Bluetooth", style: TextStyle(fontSize: 18)),
+              trailing: CupertinoSwitch(
+                value: isBluetoothOn,
+                onChanged: (value) {
+                  setState(() {
+                    isBluetoothOn = value;
+                  });
+                },
+              ),
+            ),
+            Divider(height: 1),
+            CupertinoListTile(
+              title: Text("Allow New Connections", style: TextStyle(color: CupertinoColors.systemBlue)),
+              subtitle: Text("New connections disabled from Control Center"),
+
+            ),
+            Divider(height: 1),
+            SizedBox(height: 10),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  Text("MY DEVICES", style: TextStyle(color: CupertinoColors.systemGrey)),
+                ],
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: isBluetoothOn ? devices.length : 0,
+                itemBuilder: (context, index) {
+                  return CupertinoListTile(
+                    title: Text(devices[index]),
+                    additionalInfo: Text("Not Connected", style: TextStyle(color: CupertinoColors.systemGrey)),
+                    trailing: Icon(CupertinoIcons.info_circle, color: CupertinoColors.systemBlue),
+                    onTap: () {},
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
+
