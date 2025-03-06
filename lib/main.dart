@@ -311,7 +311,7 @@ class BluetoothPageState extends State<BluetoothPage> {
       navigationBar: CupertinoNavigationBar(
         leading: CupertinoButton(
           padding: EdgeInsets.zero,
-          child: Icon(CupertinoIcons.back, color: CupertinoColors.systemBlue),
+          child: Icon(CupertinoIcons.back, color: CupertinoColors.systemBlue, size: 35,),
           onPressed: () => Navigator.pop(context),
         ),
         middle: Text("Bluetooth"),
