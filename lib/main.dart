@@ -174,98 +174,150 @@ class WifiPage extends StatefulWidget {
   const WifiPage({super.key});
 
   @override
-  WifiPageState createState() => WifiPageState();
+  _WifiPage createState() => _WifiPage();
 }
 
 
-class WifiPageState extends State<WifiPage> {
-  bool isWifiEnabled = true;
-  String connectedNetwork = "MyHomeWiFi";
-
-  List<String> savedNetworks = [
-    "MyHomeWiFi",
-    "WorkNetwork",
-    "CoffeeShop_WiFi",
-  ];
-
-  List<String> otherNetworks = [
-    "PublicHotspot",
-    "Guest_WiFi",
-    "Library_WiFi",
-    "Mall_FreeWiFi",
-  ];
+class _WifiPage extends State<WifiPage> {
+  bool wifiMode = true;
+  String connectedNetwork = "HCCJ_CSLab";
+  List<String> savedNetworks = ["_FREE Smart WIFI @HCC", "HCC_CPeLab"];
+  List<String> otherNetworks = ["!", "@OlgaSmart(WiFi)", "qwerty"];
 
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         middle: Text("Wi-Fi"),
+        trailing: CupertinoButton(
+          padding: EdgeInsets.zero,
+          child: Text("Edit", style: TextStyle(color: CupertinoColors.activeBlue)),
+          onPressed: () {},
+        ),
       ),
       child: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height: 15),
 
+            // Wi-Fi Container
+            Container(
+              padding: EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                color: CupertinoColors.darkBackgroundGray,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: CupertinoColors.black,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Icon(
+                      CupertinoIcons.wifi,
+                      color: CupertinoColors.white,
+                      size: 40,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    "Wi-Fi",
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: CupertinoColors.white),
+                  ),
+                  SizedBox(height: 5),
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      style: TextStyle(fontSize: 14, color: CupertinoColors.white),
+                      children: [
+                        TextSpan(text: "Connect to Wi-Fi, view available networks, and manage settings for joining networks and nearby hotspots. "),
+                        TextSpan(
+                          text: "Learn more...",
+                          style: TextStyle(color: CupertinoColors.systemBlue),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
+
+            // Wi-Fi Toggle
             CupertinoListTile(
-              title: Text("Wi-Fi"),
-              trailing: CupertinoSwitch(value: isWifiEnabled, onChanged: (value) {
+              title: Text("Wi-Fi", style: TextStyle(fontSize: 18)),
+              trailing: CupertinoSwitch(
+                value: wifiMode,
+                onChanged: (value) {
                   setState(() {
-                    isWifiEnabled = value;
-                    if (!isWifiEnabled) {
-                      connectedNetwork = "";
-                    }
+                    wifiMode = value;
                   });
                 },
               ),
             ),
+            Divider(height: 1),
+
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Text("MY NETWORKS",
+                style: TextStyle(color: CupertinoColors.systemGrey, fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(height: 5),
+
+            // List of My Networks
+            Column(
+              children: savedNetworks.map((network) {
+                bool isConnected = network == connectedNetwork;
+                return CupertinoListTile(
+                  title: Text(network),
+                  trailing: isConnected
+                      ? Icon(CupertinoIcons.checkmark, color: CupertinoColors.activeBlue)
+                      : Icon(CupertinoIcons.wifi, color: CupertinoColors.systemGrey),
+                  onTap: () {
+                    setState(() {
+                      connectedNetwork = network;
+                    });
+                  },
+                );
+              }).toList(),
+            ),
+
             Divider(),
-
-
-            if (isWifiEnabled) ...[
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Text("Saved Networks", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  Text(
+                    "OTHER NETWORKS",
+                    style: TextStyle(color: CupertinoColors.systemGrey, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(width: 10),
+                  CupertinoActivityIndicator(),
+                ],
               ),
-              Column(
-                children: savedNetworks.map((network) {
-                  bool isConnected = network == connectedNetwork;
-                  return CupertinoListTile(
-                    title: Text(network),
-                    trailing: isConnected
-                        ? Icon(CupertinoIcons.checkmark, color: CupertinoColors.activeBlue)
-                        : null,
-                    onTap: () {
-                      setState(() {
-                        connectedNetwork = network;
-                      });
-                    },
-                  );
-                }).toList(),
-              ),
+            ),
 
-              Divider(),
-
-
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Text("Other Networks", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              ),
-              Column(
-                children: otherNetworks.map((network) {
-                  return CupertinoListTile(
-                    title: Text(network),
-                    trailing: Icon(CupertinoIcons.wifi, color: CupertinoColors.systemGrey),
-                    onTap: () {
-                      setState(() {
-                        connectedNetwork = network;
-                        if (!savedNetworks.contains(network)) {
-                          savedNetworks.add(network);
-                        }
-                      });
-                    },
-                  );
-                }).toList(),
-              ),
-            ],
+            Column(
+              children: otherNetworks.map((network) {
+                return CupertinoListTile(
+                  title: Text(network),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(CupertinoIcons.lock, color: CupertinoColors.systemGrey),
+                      SizedBox(width: 10),
+                      Icon(CupertinoIcons.wifi, color: CupertinoColors.systemGrey),
+                    ],
+                  ),
+                  onTap: () {},
+                );
+              }).toList(),
+            ),
           ],
         ),
       ),
@@ -274,10 +326,11 @@ class WifiPageState extends State<WifiPage> {
 }
 
 
+
 void main() => runApp(CupertinoApp(
   theme: CupertinoThemeData(brightness: Brightness.dark),
   debugShowCheckedModeBanner: false,
-  home: TrapPage(),
+  home: MyApp(),
 
 ));
 
