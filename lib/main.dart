@@ -14,7 +14,7 @@ class _MyAppState extends State<MyApp> {
   bool airplaneMode = false;
   bool wifiMode = true;
   bool cellularMode = true;
-
+  bool isBluetoothOn = true;
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -277,7 +277,7 @@ class WifiPageState extends State<WifiPage> {
 void main() => runApp(CupertinoApp(
   theme: CupertinoThemeData(brightness: Brightness.dark),
   debugShowCheckedModeBanner: false,
-  home: TrapPage(),
+  home: MyApp(),
 ));
 
 
@@ -291,13 +291,18 @@ class BluetoothPage extends StatefulWidget {
 
 class BluetoothPageState extends State<BluetoothPage> {
   bool isBluetoothOn = true;
-  List<String> devices = [
+  List<String> myDevices = [
     "BEATS PRO90",
     "Bluetooth",
     "Infinix-T02",
     "JBL WAVE BUDS",
     "K12",
     "realme Buds T910"
+  ];
+
+  List<String> otherDevices = [
+    "Accessory",
+    "Accessory"
   ];
 
   @override
@@ -311,10 +316,13 @@ class BluetoothPageState extends State<BluetoothPage> {
         ),
         middle: Text("Bluetooth"),
       ),
-      child: SafeArea(child: Column(
+      child: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start, // Align text to the start
           children: [
-
             SizedBox(height: 15),
+
+            // Bluetooth Container
             Container(
               padding: EdgeInsets.all(15),
               decoration: BoxDecoration(
@@ -324,9 +332,6 @@ class BluetoothPageState extends State<BluetoothPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-
-
-
                   Container(
                     padding: EdgeInsets.all(12),
                     decoration: BoxDecoration(
@@ -340,16 +345,19 @@ class BluetoothPageState extends State<BluetoothPage> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  Text("Bluetooth",
+                  Text(
+                    "Bluetooth",
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: CupertinoColors.white),
                   ),
                   SizedBox(height: 5),
                   RichText(
-                    textAlign: TextAlign.center, text: TextSpan(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
                       style: TextStyle(fontSize: 14, color: CupertinoColors.white),
                       children: [
-                        TextSpan(text: "Connect to accessories for streaming music, calls, and gaming. "),
-                        TextSpan(text: "Learn more...",
+                        TextSpan(text: "Connect to accessories you can use for activities such as streaming music, making phone calls, and gaming. "),
+                        TextSpan(
+                          text: "Learn more...",
                           style: TextStyle(color: CupertinoColors.systemBlue),
                         ),
                       ],
@@ -360,10 +368,12 @@ class BluetoothPageState extends State<BluetoothPage> {
             ),
             SizedBox(height: 10),
 
-
+            // Bluetooth Toggle
             CupertinoListTile(
               title: Text("Bluetooth", style: TextStyle(fontSize: 18)),
-              trailing: CupertinoSwitch(value: isBluetoothOn, onChanged: (value) {
+              trailing: CupertinoSwitch(
+                value: isBluetoothOn,
+                onChanged: (value) {
                   setState(() {
                     isBluetoothOn = value;
                   });
@@ -372,30 +382,69 @@ class BluetoothPageState extends State<BluetoothPage> {
             ),
             Divider(height: 1),
 
+            // Allow New Connections
             CupertinoListTile(
               title: Text("Allow New Connections", style: TextStyle(color: CupertinoColors.systemBlue)),
-              subtitle: Text("New connections disabled from Control Center"),
             ),
             Divider(height: 1),
-            SizedBox(height: 10),
+
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16), child: Row(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
                 children: [
-                  Text("MY DEVICES", style: TextStyle(color: CupertinoColors.systemGrey)),
+                  Text(
+                    "New connections disabled from Control Center",
+                    style: TextStyle(color: CupertinoColors.systemGrey, fontSize: 14),
+                  ),
                 ],
               ),
             ),
-            Expanded(
+            SizedBox(height: 10),
 
+
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Text("MY DEVICES",
+                style: TextStyle(color: CupertinoColors.systemGrey, fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(height: 5),
+
+            // List of My Devices
+            Expanded(
               child: ListView.builder(
-                itemCount: isBluetoothOn ? devices.length : 0,
+                itemCount: isBluetoothOn ? myDevices.length + otherDevices.length + 1 : 0, // +1 for "OTHER DEVICES" row
                 itemBuilder: (context, index) {
-                  return CupertinoListTile(
-                    title: Text(devices[index]),
-                    additionalInfo: Text("Not Connected", style: TextStyle(color: CupertinoColors.systemGrey)),
-                    trailing: Icon(CupertinoIcons.info_circle, color: CupertinoColors.systemBlue),
-                    onTap: () {},
-                  );
+                  if (index < myDevices.length) {
+                    // Show My Devices
+                    return CupertinoListTile(
+                      title: Text(myDevices[index]),
+                      additionalInfo: Text("Not Connected", style: TextStyle(color: CupertinoColors.systemGrey)),
+                      trailing: Icon(CupertinoIcons.info_circle, color: CupertinoColors.systemBlue),
+                      onTap: () {},
+                    );
+                  } else if (index == myDevices.length) {
+
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      child: Row(
+                        children: [
+                          Text(
+                            "OTHER DEVICES",
+                            style: TextStyle(color: CupertinoColors.systemGrey, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(width: 10),
+                          CupertinoActivityIndicator(),
+                        ],
+                      ),
+                    );
+                  } else {
+                    // List of Other Devices (Accessories)
+                    int otherIndex = index - myDevices.length - 1;
+                    return CupertinoListTile(
+                      title: Text(otherDevices[otherIndex]),
+                    );
+                  }
                 },
               ),
             ),
@@ -405,6 +454,8 @@ class BluetoothPageState extends State<BluetoothPage> {
     );
   }
 }
+
+
 
 
 
