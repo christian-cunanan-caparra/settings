@@ -179,7 +179,7 @@ class WifiPage extends StatefulWidget {
 
 
 class _WifiPage extends State<WifiPage> {
-  bool wifiMode = true;
+  bool isWifiEnabled = true;
   String connectedNetwork = "HCCJ_CSLab";
   List<String> savedNetworks = ["_FREE Smart WIFI @HCC", "HCC_CPeLab"];
   List<String> otherNetworks = ["!", "@OlgaSmart(WiFi)", "qwerty"];
@@ -201,123 +201,125 @@ class _WifiPage extends State<WifiPage> {
           children: [
             SizedBox(height: 15),
 
-            // Wi-Fi Container
-            Container(
-              padding: EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                color: CupertinoColors.darkBackgroundGray,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: CupertinoColors.black,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Icon(
-                      CupertinoIcons.wifi,
-                      color: CupertinoColors.white,
-                      size: 40,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    "Wi-Fi",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: CupertinoColors.white),
-                  ),
-                  SizedBox(height: 5),
-                  RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      style: TextStyle(fontSize: 14, color: CupertinoColors.white),
-                      children: [
-                        TextSpan(text: "Connect to Wi-Fi, view available networks, and manage settings for joining networks and nearby hotspots. "),
-                        TextSpan(
-                          text: "Learn more...",
-                          style: TextStyle(color: CupertinoColors.systemBlue),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 10),
-
             // Wi-Fi Toggle
             CupertinoListTile(
               title: Text("Wi-Fi", style: TextStyle(fontSize: 18)),
               trailing: CupertinoSwitch(
-                value: wifiMode,
+                value: isWifiEnabled,
                 onChanged: (value) {
                   setState(() {
-                    wifiMode = value;
+                    isWifiEnabled = value;
                   });
                 },
               ),
             ),
             Divider(height: 1),
 
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text("MY NETWORKS",
-                style: TextStyle(color: CupertinoColors.systemGrey, fontWeight: FontWeight.bold),
+            if (isWifiEnabled) ...[
+              // Wi-Fi Container
+              Container(
+                padding: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  color: CupertinoColors.darkBackgroundGray,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: CupertinoColors.black,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Icon(
+                        CupertinoIcons.wifi,
+                        color: CupertinoColors.white,
+                        size: 40,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      "Wi-Fi",
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: CupertinoColors.white),
+                    ),
+                    SizedBox(height: 5),
+                    RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        style: TextStyle(fontSize: 14, color: CupertinoColors.white),
+                        children: [
+                          TextSpan(text: "Connect to available networks and manage your Wi-Fi settings. "),
+                          TextSpan(
+                            text: "Learn more...",
+                            style: TextStyle(color: CupertinoColors.systemBlue),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 5),
+              SizedBox(height: 10),
 
-            // List of My Networks
-            Column(
-              children: savedNetworks.map((network) {
-                bool isConnected = network == connectedNetwork;
-                return CupertinoListTile(
-                  title: Text(network),
-                  trailing: isConnected
-                      ? Icon(CupertinoIcons.checkmark, color: CupertinoColors.activeBlue)
-                      : Icon(CupertinoIcons.wifi, color: CupertinoColors.systemGrey),
-                  onTap: () {
-                    setState(() {
-                      connectedNetwork = network;
-                    });
-                  },
-                );
-              }).toList(),
-            ),
-
-            Divider(),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  Text(
-                    "OTHER NETWORKS",
-                    style: TextStyle(color: CupertinoColors.systemGrey, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(width: 10),
-                  CupertinoActivityIndicator(),
-                ],
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Text("MY NETWORKS",
+                  style: TextStyle(color: CupertinoColors.systemGrey, fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
+              SizedBox(height: 5),
 
-            Column(
-              children: otherNetworks.map((network) {
-                return CupertinoListTile(
-                  title: Text(network),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(CupertinoIcons.lock, color: CupertinoColors.systemGrey),
-                      SizedBox(width: 10),
-                      Icon(CupertinoIcons.wifi, color: CupertinoColors.systemGrey),
-                    ],
-                  ),
-                  onTap: () {},
-                );
-              }).toList(),
-            ),
+              // List of My Networks
+              Column(
+                children: savedNetworks.map((network) {
+                  bool isConnected = network == connectedNetwork;
+                  return CupertinoListTile(
+                    title: Text(network),
+                    trailing: isConnected
+                        ? Icon(CupertinoIcons.checkmark, color: CupertinoColors.activeBlue)
+                        : Icon(CupertinoIcons.wifi, color: CupertinoColors.systemGrey),
+                    onTap: () {
+                      setState(() {
+                        connectedNetwork = network;
+                      });
+                    },
+                  );
+                }).toList(),
+              ),
+
+              Divider(),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  children: [
+                    Text(
+                      "OTHER NETWORKS",
+                      style: TextStyle(color: CupertinoColors.systemGrey, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(width: 10),
+                    CupertinoActivityIndicator(),
+                  ],
+                ),
+              ),
+
+              Column(
+                children: otherNetworks.map((network) {
+                  return CupertinoListTile(
+                    title: Text(network),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(CupertinoIcons.lock, color: CupertinoColors.systemGrey),
+                        SizedBox(width: 10),
+                        Icon(CupertinoIcons.wifi, color: CupertinoColors.systemGrey),
+                      ],
+                    ),
+                    onTap: () {},
+                  );
+                }).toList(),
+              ),
+            ],
           ],
         ),
       ),
