@@ -277,7 +277,7 @@ class WifiPageState extends State<WifiPage> {
 void main() => runApp(CupertinoApp(
   theme: CupertinoThemeData(brightness: Brightness.dark),
   debugShowCheckedModeBanner: false,
-  home: MyApp(),
+  home: TrapPage(),
 ));
 
 
