@@ -420,15 +420,7 @@ class WifiPageState extends State<WifiPage> {
         children: [
           SizedBox(height: 15),
 
-          CupertinoListTile(
-            title: Text("Wi-Fi", style: TextStyle(fontSize: 18)),
-            trailing: CupertinoSwitch(value: isWifiEnabled, onChanged: (value) {
-              setState(() {
-                isWifiEnabled = value;
-              });
-            },
-            ),
-          ),
+
           Divider(height: 1),
 
           Container(
@@ -460,6 +452,16 @@ class WifiPageState extends State<WifiPage> {
                   style: TextStyle(fontSize: 14, color: CupertinoColors.white),
                 ),
               ],
+            ),
+          ),
+          SizedBox(height: 10),
+          CupertinoListTile(
+            title: Text("Wi-Fi", style: TextStyle(fontSize: 18)),
+            trailing: CupertinoSwitch(value: isWifiEnabled, onChanged: (value) {
+              setState(() {
+                isWifiEnabled = value;
+              });
+            },
             ),
           ),
           SizedBox(height: 10),
