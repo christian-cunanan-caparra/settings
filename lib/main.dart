@@ -20,7 +20,41 @@ class _MyAppState extends State<MyApp> {
   bool personalHotspot = false;
   int batteryLevel = 75;
 
+  void _showSoftwaresActionSheet(BuildContext context) {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext context) => CupertinoActionSheet(
+        title: Text('Software Updates'),
 
+        actions: <Widget>[
+          CupertinoActionSheetAction(child: Text('Online Updates'),
+            onPressed: () {
+
+
+
+
+            },
+          ),
+          CupertinoActionSheetAction(child: Text('Local Updates'),
+            onPressed: () {
+
+
+
+
+            },
+          ),
+
+
+
+        ],
+        cancelButton: CupertinoActionSheetAction(child: Text('Cancel',style: TextStyle(color: CupertinoColors.destructiveRed),),
+          onPressed: () {
+            Navigator.pop(context, 'Cancel');
+          },
+        ),
+      ),
+    );
+  }
 
   void _showMembersActionSheet(BuildContext context) {
     showCupertinoModalPopup(
@@ -64,7 +98,8 @@ class _MyAppState extends State<MyApp> {
             },
           ),
         ],
-        cancelButton: CupertinoActionSheetAction(child: Text('Cancel'),
+        cancelButton: CupertinoActionSheetAction(child: Text('Cancel',style: TextStyle(color: CupertinoColors.destructiveRed),),
+
           onPressed: () {
             Navigator.pop(context, 'Cancel');
           },
@@ -122,14 +157,19 @@ class _MyAppState extends State<MyApp> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Christian C. Caparra',
+
+
                           style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               color: Colors.white)),
                       Text('Apple Account, iCloud, and more',
                           style: TextStyle(fontSize: 14, color: Colors.grey)),
+
+
                     ],
                   ),
+
                   Spacer(),
                   GestureDetector(
                     onTap: () {
@@ -211,7 +251,12 @@ class _MyAppState extends State<MyApp> {
                     SizedBox(width: 10),
 
 
-                    Icon(CupertinoIcons.chevron_right, color: Colors.grey),
+                    GestureDetector(
+                      onTap: () {
+                        _showSoftwaresActionSheet(context);
+                      },
+                      child: Icon(CupertinoIcons.chevron_right, color: Colors.grey),
+                    ),
                   ],
                 ),
               ),
@@ -774,3 +819,5 @@ class TrapPage extends StatelessWidget {
     );
   }
 }
+
+
