@@ -201,7 +201,7 @@ class _MyAppState extends State<MyApp> {
               ),
             ),
 
-            SizedBox(height: 30),
+            SizedBox(height: 10),
 
 
             GestureDetector(
@@ -242,7 +242,7 @@ class _MyAppState extends State<MyApp> {
             ),
 
 
-            SizedBox(height: 30),
+            SizedBox(height: 10),
 
             Container(
               decoration: BoxDecoration(
@@ -579,7 +579,7 @@ class WifiPageState extends State<WifiPage> {
 void main() => runApp(CupertinoApp(
   theme: CupertinoThemeData(brightness: Brightness.dark),
   debugShowCheckedModeBanner: false,
-  home: TrapPage(),
+  home: MyApp(),
 
 ));
 
