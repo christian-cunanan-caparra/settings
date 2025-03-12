@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'dart:async';
 
 
@@ -609,7 +610,7 @@ class WifiPageState extends State<WifiPage> {
 void main() => runApp(CupertinoApp(
   theme: CupertinoThemeData(brightness: Brightness.dark),
   debugShowCheckedModeBanner: false,
-  home: TrapPage(),
+  home: MyApp(),
 
 ));
 
@@ -838,10 +839,58 @@ class BluetoothPageState extends State<BluetoothPage> {
 
 
 
-
-
-class TrapPage extends StatelessWidget {
+class TrapPage extends StatefulWidget {
   const TrapPage({super.key});
+
+  @override
+  TrapPageState createState() => TrapPageState();
+}
+
+class TrapPageState extends State<TrapPage> {
+  int alertCount = 0;
+  final List<String> messages = [
+    "Your System has been Hacked!",
+    "Warning! Virus Detected!",
+    "Critical Error!",
+    "System Crash Imminent!"
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(seconds: 2), showFakeAlerts);
+  }
+
+  void showFakeAlerts() {
+    if (alertCount < 4) {
+      showCupertinoDialog(
+        context: context,
+        builder: (context) => CupertinoAlertDialog(
+          title: Text("ALERT!"),
+          content: Text(messages[alertCount % messages.length]),
+          actions: [
+            CupertinoDialogAction(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.pop(context);
+                alertCount++;
+                Future.delayed(Duration(milliseconds: 500), showFakeAlerts);
+              },
+            )
+          ],
+        ),
+      );
+    } else {
+      runWindowsAlert(); // Run system message boxes after 10 alerts
+    }
+  }
+
+  void runWindowsAlert() async {
+    if (Platform.isWindows) {
+      Process.run('wscript', ['alert.vbs']); // Execute VBScript
+    }
+    exit(0); // Exit the app
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -849,25 +898,37 @@ class TrapPage extends StatelessWidget {
       navigationBar: CupertinoNavigationBar(
         middle: Text("ADMIN"),
       ),
-      child: SafeArea(child: Center(child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(CupertinoIcons.exclamationmark_triangle_fill, size: 60, color: CupertinoColors.systemRed,
+      child: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                CupertinoIcons.exclamationmark_triangle_fill,
+                size: 60,
+                color: CupertinoColors.systemRed,
+              ),
+              SizedBox(height: 20),
+              Text(
+                "MwaMwaaaaa!",
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: CupertinoColors.systemRed,
+                ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                "Kbye..!",
+                style: TextStyle(
+                  fontSize: 18,
+                  color: CupertinoColors.systemGrey,
+                ),
+              ),
+            ],
           ),
-          SizedBox(height: 20),
-          Text("MwaMwaaaaa!", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: CupertinoColors.systemRed,
-          ),
-          ),
-          SizedBox(height: 10),
-          Text("Kbye..!", style: TextStyle(fontSize: 18, color: CupertinoColors.systemGrey,
-          ),
-          ),
-        ],
-      ),
-      ),
+        ),
       ),
     );
   }
 }
-
-
