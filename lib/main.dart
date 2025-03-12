@@ -599,7 +599,7 @@ class WifiPageState extends State<WifiPage> {
 void main() => runApp(CupertinoApp(
   theme: CupertinoThemeData(brightness: Brightness.dark),
   debugShowCheckedModeBanner: false,
-  home: TrapPage(),
+  home: MyApp(),
 
 ));
 
@@ -773,9 +773,21 @@ class BluetoothPageState extends State<BluetoothPage> {
               title: Text("Accessory"),
             ),
           ],
-
           SizedBox(height: 20), // Extra space at the bottom
+
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Text("To pair an Apple Watch with your iPhone. go to the", style: TextStyle(color: CupertinoColors.systemGrey, fontSize: 16),
+            ),
+          ),
+
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Text("Apple Watch App", style: TextStyle(color: CupertinoColors.systemBlue, fontSize: 16),
+            ),
+          ),
         ],
+
       ),
       ),
       ),
