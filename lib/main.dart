@@ -112,8 +112,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        leading: Text(
-          'Settings', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        leading: Text('Settings', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
       ),
       child: Padding(
@@ -130,60 +129,49 @@ class _MyAppState extends State<MyApp> {
 
 
 
-            Container(
-              padding: EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                color: CupertinoColors.darkBackgroundGray,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                  bottomLeft: Radius.circular(0),
-                  bottomRight: Radius.circular(0),
+            GestureDetector(
+              onTap: () {
+                _showMembersActionSheet(context);
+              },
+              child: Container(
+                padding: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  color: CupertinoColors.darkBackgroundGray,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                    bottomLeft: Radius.circular(0),
+                    bottomRight: Radius.circular(0),
+                  ),
                 ),
-              ),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    backgroundColor: CupertinoColors.systemGrey,
-                    child: Text('CCC', style: TextStyle(color: Colors.white)),
-                  ),
-
-
-                  SizedBox(width: 10),
-
-
-
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Christian C. Caparra',
-
-
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white)),
-                      Text('Apple Account, iCloud, and more',
-                          style: TextStyle(fontSize: 14, color: Colors.grey)),
-
-
-                    ],
-                  ),
-
-                  Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      _showMembersActionSheet(context);
-                    },
-                    child: Icon(CupertinoIcons.chevron_right, color: Colors.grey),
-                  ),
-                ],
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: CupertinoColors.systemGrey,
+                      child: Text('CC', style: TextStyle(color: Colors.white)),
+                    ),
+                    SizedBox(width: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Christian C. Caparra', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text('Apple Account, iCloud, and more', style: TextStyle(fontSize: 14, color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                    Spacer(),
+                    Icon(CupertinoIcons.chevron_right, color: Colors.grey),
+                  ],
+                ),
               ),
             ),
 
+
             Container(
-              decoration: BoxDecoration(
-                color: CupertinoColors.darkBackgroundGray,
+              decoration: BoxDecoration(color: CupertinoColors.darkBackgroundGray,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(0),
                   topRight: Radius.circular(0),
@@ -192,8 +180,7 @@ class _MyAppState extends State<MyApp> {
                 ),
               ),
               child: CupertinoListTile(
-                title: Text("Your iPhone can't be backed up",
-                    style: TextStyle(color: Colors.white)),
+                title: Text("Your iPhone can't be backed up", style: TextStyle(color: Colors.white)),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -203,9 +190,7 @@ class _MyAppState extends State<MyApp> {
                         color: CupertinoColors.systemRed,
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Text("1", style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
+                      child: Text("1", style: TextStyle(color: Colors.white, fontSize: 14,
                           fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -219,48 +204,43 @@ class _MyAppState extends State<MyApp> {
             SizedBox(height: 30),
 
 
-            Container(
-              decoration: BoxDecoration(
-                color: CupertinoColors.darkBackgroundGray,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10),
+            GestureDetector(
+              onTap: () {
+                _showSoftwaresActionSheet(context);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: CupertinoColors.darkBackgroundGray,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                    bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
+                  ),
                 ),
-              ),
-              child: CupertinoListTile(
-                title: Text("Software Update Available",
-                    style: TextStyle(color: Colors.white)),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: CupertinoColors.systemRed,
-                        borderRadius: BorderRadius.circular(12),
-                      ), child: Text("1", style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold),
-                    ),
-                    ),
-
-
-                    SizedBox(width: 10),
-
-
-                    GestureDetector(
-                      onTap: () {
-                        _showSoftwaresActionSheet(context);
-                      },
-                      child: Icon(CupertinoIcons.chevron_right, color: Colors.grey),
-                    ),
-                  ],
+                child: CupertinoListTile(
+                  title: Text("Software Update Available", style: TextStyle(color: Colors.white),
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        decoration: BoxDecoration(color: CupertinoColors.systemRed,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text("1", style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Icon(CupertinoIcons.chevron_right, color: Colors.grey),
+                    ],
+                  ),
                 ),
               ),
             ),
+
 
             SizedBox(height: 30),
 
